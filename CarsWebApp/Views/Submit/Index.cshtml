@@ -1,0 +1,310 @@
+﻿@model CarModel;
+@inject ICarService  CarService;
+@using CarsWebApp.Services.Contracts;
+@using CarsWebApp.Models;
+@using CarsWebApp.Models.Enums;
+@{
+
+}
+<section class="b-pageHeader">
+    <div class="container">
+        <h1 class="wow zoomInLeft" data-wow-delay="0.5s">Submit Your Vehicle</h1>
+        <div class="b-pageHeader__search wow zoomInRight" data-wow-delay="0.5s">
+            <h3>Add Your Vehicle In Our Listings</h3>
+        </div>
+    </div>
+</section>
+
+<div class="b-submit">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-8 col-sm-7 col-xs-6" style="margin: auto;">
+                <div class="b-submit__main">
+
+                    <header class="s-headerSubmit s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
+                        <h2 class="">Add Your Vehicle Details</h2>
+                    </header>
+                    <form id="addCar" class="s-submit clearfix" asp-controller="Submit" asp-action="AddCar" asp-antiforgery="true" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Brand <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="BrandType">
+                                            <option selected="selected" value="">Please select</option>
+
+                                            @foreach (var brand in await CarService.GetBrands())
+                                            {
+                                                <option value="@brand.Id">@brand.BrandType</option>
+                                            }
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="BrandType" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Engine Capacity <span>*</span></label>
+                                    <input asp-for="EngineVolume" placeholder="Enter engine capacity" type="text" />
+                                    <span asp-validation-for="EngineVolume" class="text-danger"></span>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Vehicle State<span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="State" asp-items="Html.GetEnumSelectList<StateType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="State" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Engine Modification <span>*</span></label>
+                                    <input asp-for="EngineModification" placeholder="Enter engine modification" type="text" />
+                                    <span asp-validation-for="EngineModification" class="text-danger"></span>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Vehicle Transmission Type<span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="Transmission" asp-items="Html.GetEnumSelectList<TransmissionType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="Transmission" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Select Fuel Type <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="FuelType" asp-items="Html.GetEnumSelectList<FuelType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="FuelType" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Select Color <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="Color" asp-items="Html.GetEnumSelectList<ColorType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="Color" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Select Eurostandart Type <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="EuroStandartType" asp-items="Html.GetEnumSelectList<EuroStandartType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="EuroStandartType" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <input type="checkbox" asp-for="FirstExtras.AirConditioning" id="extraOne" class='chk-btn' />
+                                    <label for='extraOne'>Air Conditioning</label>
+                                    <input type="checkbox" asp-for="FirstExtras.Climatronic" id="extraTwo" class='chk-btn' />
+                                    <label for='extraTwo'>Climatronic</label>
+                                    <input type="checkbox" asp-for="FirstExtras.ClimateControl" id="extraThree" class='chk-btn' />
+                                    <label for='extraThree'>Climate Control</label>
+                                    <input type="checkbox" asp-for="FirstExtras.AlloyWheels" id="extraFour" class='chk-btn' />
+                                    <label for='extraFour'>Alloy Wheels</label>
+                                    <input type="checkbox" asp-for="FirstExtras.HeatedSeats" id="extraFive" class='chk-btn' />
+                                    <label for='extraFive'>Heated Seats</label>
+                                    <input type="checkbox" asp-for="FirstExtras.DABradio" id="extraSix" class='chk-btn' />
+                                    <label for='extraSix'>DAB Radio</label>
+                                    <input type="checkbox" asp-for="FirstExtras.CruiseControl" id="extraSeven" class='chk-btn' />
+                                    <label for='extraSeven'>Cruise Control</label>
+                                    <input type="checkbox" asp-for="SecondExtras.DualAirbag" id="extraEight" class='chk-btn' />
+                                    <label for='extraEight'>Dual Airbag</label>
+                                    <input type="checkbox" asp-for="SecondExtras.KeylessEntry" id="extraNine" class='chk-btn' />
+                                    <label for='extraNine'>Keyless Entry</label>
+                                    <input type="checkbox" asp-for="SecondExtras.PowerMirrors" id="extraTen" class='chk-btn' />
+                                    <label for='extraTen'>Power Mirrors</label>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Add Pictures<span>*</span></label>
+                                    <input type="file" name="files" multiple />
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Vehicle Model <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" id="ModelTypes" asp-for="ModelType">
+                                            <option value="-1" selected>Select Model</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="ModelType" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Horse power <span>*</span></label>
+                                    <input asp-for="HorsePower" placeholder="Enter horse power" type="text" />
+                                    <span asp-validation-for="HorsePower" class="text-danger"></span>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Vehicle Manufacturer Year<span>*</span></label>
+                                    <input type="text" id="datetimepicker" asp-for="CarYear">
+                                    <span asp-validation-for="CarYear" class="text-danger"></span>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Select Body Type <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="BodyType" asp-items="Html.GetEnumSelectList<BodyType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="BodyType" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Price<span>*</span></label>
+                                    <input asp-for="Price" placeholder="Enter price" type="text" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>No. of Doors <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select class="m-select" asp-for="Doors" asp-items="Html.GetEnumSelectList<DoorsType>()">
+                                            <option selected="selected" value="">Please select</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="Doors" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Metallic <span>*</span></label>
+                                    <div class='s-relative'>
+                                        <select asp-for="Metallic" class="m-select">
+                                            <option selected>Select</option>
+                                            <option value="false">No</option>
+                                            <option value="true">Yes</option>
+                                        </select>
+                                        <span class="fa fa-caret-down"></span>
+                                        <span asp-validation-for="Metallic" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Mileage<span>*</span></label>
+                                    <input asp-for="Mileage" placeholder="Enter mileage" type="text" />
+                                    <span asp-validation-for="Mileage" class="text-danger"></span>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <input type="checkbox" asp-for="SecondExtras.PowerSeat" id="extrOne" class='chk-btn' />
+                                    <label for='extrOne'>Power Seat</label>
+                                    <input type="checkbox" asp-for="SecondExtras.PowerSteering" id="extrTwo" class='chk-btn' />
+                                    <label for='extrTwo'>Power Steering</label>
+                                    <input type="checkbox" asp-for="SecondExtras.AntiLockBrakes" id="extrThree" class='chk-btn' />
+                                    <label for='extrThree'>Anti Lock Brakes</label>
+                                    <input type="checkbox" asp-for="SecondExtras.AntiTheft" id="extrFour" class='chk-btn' />
+                                    <label for='extrFour'>Anti Theft</label>
+                                    <input type="checkbox" asp-for="SecondExtras.AntiStarter" id="extrFive" class='chk-btn' />
+                                    <label for='extrFive'>Anti Starter</label>
+                                    <input type="checkbox" asp-for="ThirdExtras.CDPlayer" id="extrSix" class='chk-btn' />
+                                    <label for='extrSix'>CD Player</label>
+                                    <input type="checkbox" asp-for="ThirdExtras.DriverSideAirbag" id="extrSeven" class='chk-btn' />
+                                    <label for='extrSeven'>Driver Side Airbag</label>
+                                    <input type="checkbox" asp-for="ThirdExtras.PowerWindows" id="extrEight" class='chk-btn' />
+                                    <label for='extrEight'>Power Windows</label>
+                                    <input type="checkbox" asp-for="ThirdExtras.RemoteStart" id="extrNine" class='chk-btn' />
+                                    <label for='extrNine'>Remote Start</label>
+                                    <input type="checkbox" asp-for="ThirdExtras.Autopilot" id="extrTen" class='chk-btn' />
+                                    <label for='extrTen'>Autopilot</label>
+                                </div>
+
+                                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                                    <label>Enter Description <span>*</span></label>
+                                    <textarea asp-for="Description" class="form-control" maxlength="1500" placeholder="Enter Description" type="text"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button id="submit" type="submit" class="btn m-btn pull-right wow zoomInUp" data-wow-delay="0.5s">Save &amp; PROCEED to next step<span class="fa fa-angle-right"></span></button>
+                        @Html.AntiForgeryToken()
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--b-submit-->
+<style>
+    input.chk-btn {
+        display: none;
+    }
+
+        input.chk-btn + label {
+            border: 1px solid grey;
+            background: white;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input.chk-btn:not(:checked) + label:hover {
+            box-shadow: 0px 1px 3px;
+        }
+
+        input.chk-btn + label:active,
+        input.chk-btn:checked + label {
+            box-shadow: 0px 0px 3px inset;
+            background: #eee;
+        }
+</style>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#BrandType').on('change', function () {
+                var modelId = $('#BrandType option:selected').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { modelId: modelId },
+                    url: '@Url.Action("GetModelById", "Values", new { httproute = "api"})',
+                    success: function (result) {
+                        var models = JSON.parse(result);
+                        var append = '';
+                        for (var i = 0; i < models.length; i++) {
+                            append += '<option value=' + models[i].Id + '>' + models[i].ModelType + '</option>';
+                        }
+                        $('#ModelTypes').html(append);
+                    }
+                })
+            })
+        })
+
+
+    </script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'MM yy',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+        });
+    </script>
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
+    
+    <partial name="_ValidationScriptsPartial" />
+}

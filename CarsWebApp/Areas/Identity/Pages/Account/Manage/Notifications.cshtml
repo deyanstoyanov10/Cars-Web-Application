@@ -1,0 +1,330 @@
+﻿@page
+@model CarsWebApp.Areas.Identity.Pages.Account.Manage.NotificationsModel
+@{
+}
+<link href="~/css/chat.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<!--<div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>-->
+<!-- chat modal-->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" onclick="ClearIntervals()" data-dismiss="modal" value="close">&times;</button>
+            </div>
+
+            <div id="mesgs" class="mesgs">
+                <div id="history" class="msg_history">
+                    @*<div class="incoming_msg">
+
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>
+                                    Test which is a new approach to have all
+                                    solutions
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    June 9</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>
+                                Test which is a new approach to have all
+                                solutions
+                            </p>
+                            <span class="time_date"> 11:01 AM    |    June 9</span>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>Test, which is a new approach to have</p>
+                                <span class="time_date"> 11:01 AM    |    Yesterday</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="outgoing_msg">
+                        <div class="sent_msg">
+                            <p>Apollo University, Delhi, India Test</p>
+                            <span class="time_date"> 11:01 AM    |    Today</span>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>
+                                    We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>
+                                    We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>
+                                    We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                <p>
+                                    We work directly with our designers and suppliers,
+                                    and sell direct to you, which means quality, exclusive
+                                    products, at a price anyone can afford.
+                                </p>
+                                <span class="time_date"> 11:01 AM    |    Today</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="test">
+
+                    </div>*@
+                </div>
+                <div class="type_msg">
+                    <div class="input_msg_write">
+                        <input id="messageInput" type="text" class="write_msg" placeholder="Type a message" />
+                        <input id="toWhom" type="hidden" value="" />
+                        <button id="sendMessage" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- end chat modal-->
+
+<div class="col-md-12">
+    <div class="page-people-directory">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>All Contacts</h3>
+                    </div>
+
+                </div>
+
+                <div id="listContacts" class="list-group contact-group">
+                    
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <script>
+       
+        $("#history").html("");
+        function scrollTop() {
+            var objDiv = document.getElementById("history");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+
+    $(document).ready(function () {
+    var username = "@User.Identity.Name";
+        $.ajax({
+            type: 'GET',
+            data: { username: username },
+            url: '@Url.Action("GetChatList", "Values", new { httproute = "api"})',
+            success: function (result) {
+                var chatList = JSON.parse(result);
+
+                var append = '';
+                for (var i = 0; i < chatList.length; i++) {
+                    append += '<button class="list-group-item" onclick="messages(this.value)" data-toggle="modal" data-target="#myModal" value=' + chatList[i].From + '>';
+                    append += '<input type="hidden" id="user" value=' + chatList[i].From + '>';
+                    append += '<div class="media">';
+                    append += '<div class="media-body"><h4 class="media-heading">' + chatList[i].From + '</h4>';
+                    append += '<div class="media-content"><i class="fa fa-wpforms"></i> ' + chatList[i].Message + '';
+                    append += '<ul class="list-unstyled"><li><i class="fa fa-mobile"></i>' + chatList[i].Phone + '</li>';
+                    append += '<li><i class="fa fa-envelope-o"></i>' + chatList[i].Email + '</li></ul></div></div></div>';
+                    if (chatList[i].UnseenMessages > 0) {
+                        append += '<span class="badge">' + chatList[i].UnseenMessages + '</span>';
+                    }
+                    append += '</button>';
+                }
+                $("#listContacts").html("");
+                $('#listContacts').html(append);
+            }
+        })
+    })
+    </script>
+<script>
+    //function Initialize() {
+    //    $("#history").html("");
+    //    ClearIntervals();
+    //    InitializeChatList();
+    //}
+
+    function InitializeChatList() {
+        var username = "@User.Identity.Name";
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                data: { username: username },
+                url: '@Url.Action("GetChatList", "Values", new { httproute = "api"})',
+                success: function (result) {
+                    var chatList = JSON.parse(result);
+
+                    var append = '';
+                    for (var i = 0; i < chatList.length; i++) {
+                        append += '<button class="list-group-item" onclick="messages(this.value)" data-toggle="modal" data-target="#myModal" value=' + chatList[i].From + '>';
+                        append += '<div class="media">';
+                        append += '<div class="media-body"><h4 class="media-heading">' + chatList[i].From + '</h4>';
+                        append += '<div class="media-content"><i class="fa fa-wpforms"></i> ' + chatList[i].Message + '';
+                        append += '<ul class="list-unstyled"><li><i class="fa fa-mobile"></i>' + chatList[i].Phone + '</li>';
+                        append += '<li><i class="fa fa-envelope-o"></i>' + chatList[i].Email + '</li></ul></div></div></div>';
+                        if (chatList[i].UnseenMessages > 0) {
+                            append += '<span class="badge">' + chatList[i].UnseenMessages + '</span>';
+                        }
+                        append += '</button>';
+                    }
+                    $("#listContacts").html("");
+                    $('#listContacts').html(append);
+                }
+            })
+        }, 1000);
+    }
+    InitializeChatList();
+</script>
+
+<script>
+    var interval;
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+
+    function ClearIntervals() {
+        
+            window.clearInterval(interval);
+        
+    }
+    
+    function messages(input) {
+        var from = input;
+        var to = "@User.Identity.Name";
+          interval =  setInterval(function () {
+                $.ajax({
+                    type: 'GET',
+                    data: { from: from, to: to },
+                    url: '@Url.Action("GetMessages", "Values", new { httproute = "api"})',
+                    success: function (result) {
+                        var messages = JSON.parse(result);
+                        var append = '';
+                        var nowDate = new Date();
+                        for (var i = 0; i < messages.length; i++) {
+                            var date = new Date(messages[i].Date);
+                            var dateFormat = '';
+
+                            if (date.getHours() < 10) {
+                                dateFormat += '0' + date.getHours() + ':';
+                            }
+                            else {
+                                dateFormat += date.getHours() + ':';
+                            }
+
+                            if (date.getMinutes() < 10) {
+                                dateFormat += '0' + date.getMinutes();
+                            }
+                            else {
+                                dateFormat += date.getMinutes();
+                            }
+                            dateFormat += '    |    ';
+
+                            if (date.getDate() == nowDate.getDate()) {
+                                dateFormat += 'Today';
+                            }
+                            else if (date.getDate() == nowDate.getDate() - 1) {
+                                dateFormat += 'Yesterday';
+                            }
+                            else {
+                                dateFormat += month[date.getMonth()] + ' ' + date.getDate();
+                            }
+
+                            if (messages[i].From == from) {
+                                append += '<div class="incoming_msg"><div class="received_msg"><div class="received_withd_msg" style="word-wrap:break-word;">';
+                                append += '<p>' + messages[i].Message + '</p><span class="time_date">' + dateFormat + '</span></div></div></div>';
+                            }
+                            else {
+                                append += '<div class="outgoing_msg"><div class="sent_msg" style="word-wrap:break-word;">';
+                                append += '<p>' + messages[i].Message + '</p><span class="time_date">' + dateFormat + '</span></div></div>';
+                            }
+                        }
+                        $("#history").html("");
+                        $('#history').html(append);
+                    }
+                })
+            }, 500);
+        document.getElementById("toWhom").setAttribute('value', from);
+        
+    }
+
+    $(document).ready(function () {
+        $('#sendMessage').on('click', function () {
+            var from = "@this.User.Identity.Name";
+            var to = $('#toWhom').val();
+            var message = $('#messageInput').val();
+
+            if (message.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    data: {from: from, to: to, message: message},
+                    url: "@Url.Action("SendMessage", "Car")",
+                    success: function () {
+                        document.getElementById("messageInput").value = '';
+                    }
+                })
+            }
+        })
+        $('#messageInput').keypress(function(e){
+        if(e.which == 13){
+            $('#sendMessage').click();
+        }
+    });
+    })
+</script>
+}

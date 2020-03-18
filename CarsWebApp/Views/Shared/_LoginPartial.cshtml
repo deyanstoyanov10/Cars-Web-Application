@@ -1,0 +1,60 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<ul class="b-topBar__nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+          <li>
+              <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                  <button type="submit"  class="nav-link btn btn-link text-dark">Logout</button>
+              </form>
+          </li>
+          <li>
+                  <button type="submit" class="nav-link btn btn-link text-dark" onclick="location.href='/Identity/Account/Manage'">Hello @User.Identity.Name!<span id="notifications"></span></button>
+          </li>
+     }
+     else
+     {
+         <li>
+             <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+         </li>
+         <li>
+             <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+         </li>
+     }
+</ul>
+<style>
+    .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}
+</style>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            var username = "@this.User.Identity.Name";
+            if (username.length > 0) {
+                $.ajax({
+                    type: 'GET',
+                    data: { username: username },
+                    url: '@Url.Action("NotificationMessages", "Values", new { httproute = "api"})',
+                    success: function (result) {
+                        $('#notifications').html("");
+                        if (result > 0) {
+                            var append = '<span class="badge">' + JSON.parse(result) + '</span>';
+                            $('#notifications').html(append);
+                        }
+                    }
+                })
+            }
+        }, 1500);
+    })
+</script>

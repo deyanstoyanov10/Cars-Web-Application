@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-CarsWebApp-7225F794-B040-4C9D-8EFE-9E07EEB5B543</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.ML" Version="1.4.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.5.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\switcher\images\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarsWebApp.Data\CarsWebApp.Data.csproj" />
+    <ProjectReference Include="..\CarsWebApp.Models\CarsWebApp.Models.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="MLModels\MLModel.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190929142128_newdb.cs" />
+    <Compile Remove="Migrations\20190929142128_newdb.Designer.cs" />
+    <Compile Remove="Migrations\20190929142902_CarsDb.cs" />
+    <Compile Remove="Migrations\20190929142902_CarsDb.Designer.cs" />
+    <Compile Remove="Migrations\20190929144035_carsDB.cs" />
+    <Compile Remove="Migrations\20190929144035_carsDB.Designer.cs" />
+    <Compile Remove="Migrations\20190929144547_CarsDB.cs" />
+    <Compile Remove="Migrations\20190929144547_CarsDB.Designer.cs" />
+    <Compile Remove="Migrations\20191105083632_fixStringId.cs" />
+    <Compile Remove="Migrations\20191105083632_fixStringId.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarsWebApp.Models\CarsWebApp.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,114 @@
+﻿@model CarsWebApp.Models.ListCarsViewModel;
+@inject CarsWebApp.Services.Contracts.IListCars  ListCarsService;
+@using ReflectionIT.Mvc.Paging;
+@using CarsWebApp.Models.Enums;
+@using System.Globalization;
+@{
+    var query = Model.ListedCars.AsQueryable().OrderBy(x => x.Mileage);
+    var cars = PagingList.Create(query, 9, Model.Page);
+
+    var math = (double)query.ToList().Count / 9;
+    var allPages = Math.Ceiling(math);
+
+    var pageForFirstArrow = Model.Page;
+    var pageForNumbers = Model.Page;
+    var pageForSecondArrow = Model.Page;
+    
+}
+
+    <div class="row m-border">
+
+        @foreach (var car in cars)
+        {
+            <div class="col-lg-4 col-md-6 col-xs-12 wow zoomInUp" data-wow-delay="0.5s">
+                <div class="b-items__cell">
+                    <div class="b-items__cars-one-img" style="max-width: 100%;max-height: 100%;">
+
+                        <img class="img-responsive center-block" src="data:image/png;base64, @ListCarsService.GetPicture(car.Id)" />
+                    </div>
+
+                    <div class="b-items__cell-info">
+                        <div class="s-lineDownLeft b-items__cell-info-title">
+
+                            <center><strong><a asp-controller="Car" asp-action="Index" asp-route-searchKey="@car.SearchKey">@ListCarsService.GetBrandName(car.BrandId) @ListCarsService.GetModelName(car.ModelId) @car.EngineModification</a></strong></center>
+
+                        </div>
+                        <p>
+                            @if (car.Description.Length < 45)
+                            {
+                                @car.Description;
+                            }
+                            else
+                            {
+                                @car.Description.Substring(0, 45)
+                            }
+                            ...
+                        </p>
+                        <div>
+                            <div class="row m-smallPadding">
+                                <div class="col-xs-5">
+                                    <span class="b-items__cars-one-info-title">Body Style:</span>
+                                    <span class="b-items__cars-one-info-title">Mileage:</span>
+                                    <span class="b-items__cars-one-info-title">Transmission:</span>
+                                    <span class="b-items__cars-one-info-title">Specs:</span>
+                                </div>
+                                <div class="col-xs-7">
+                                    <span class="b-items__cars-one-info-value">@((BodyType)car.BodyType)</span>
+                                    <span class="b-items__cars-one-info-value">@car.Mileage.ToString("N0") KM</span>
+                                    <span class="b-items__cars-one-info-value">@((TransmissionType)car.Transmission)</span>
+                                    <span class="b-items__cars-one-info-value">
+                                        @if (car.Doors == 0)
+                                        {
+                                            @("2-Passengers, 2-Doors")
+                                        }
+                                        else
+                                        {
+                                            @("5-Passengers, 4-Doors")
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="b-items__cell-info-price"><span>Price:&nbsp;</span>@car.Price.ToString("C2", CultureInfo.CreateSpecificCulture("en-US"))</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="b-items__pagination">
+        <div class="b-items__pagination-main wow zoomInUp" data-wow-delay="0.5s">
+
+            @if (pageForFirstArrow > 1)
+            {
+                pageForFirstArrow--;
+                <a href="@ListCarsService.GetReturnUrlWithParameters("Find", "Search", Model.SearchModel, pageForFirstArrow)" class="m-left"><span class="fa fa-angle-left"></span></a>
+            }
+            else
+            {
+                <a href="javascript:function() { return false; }" class="m-left"><span class="fa fa-angle-left"></span></a>
+            }
+
+            @for (int i = pageForNumbers; i <= allPages; i++)
+            {
+                if (i == pageForNumbers)
+                {
+                    <span class="m-active"><a href="@ListCarsService.GetReturnUrlWithParameters("Find", "Search", Model.SearchModel, i)">@i</a></span>
+                }
+                else
+                {
+                    <span><a href="@ListCarsService.GetReturnUrlWithParameters("Find", "Search", Model.SearchModel, i)">@i</a></span>
+                }
+            }
+
+            @if (pageForSecondArrow < allPages)
+            {
+                pageForSecondArrow++;
+                <a href="@ListCarsService.GetReturnUrlWithParameters("Find", "Search", Model.SearchModel, pageForSecondArrow)" class="m-right"><span class="fa fa-angle-right"></span></a>
+            }
+            else
+            {
+                <a href="javascript:function() { return false; }" class="m-right"><span class="fa fa-angle-right"></span></a>
+            }
+        </div>
+    </div>
+

@@ -1,0 +1,21 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+    <ul class="nav nav-pills nav-stacked">
+        <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-page="./Index">User Settings</a></li>
+        <li class="@ManageNavPages.ChangePasswordNavClass(ViewContext)"><a id="change-password" asp-page="./ChangePassword">Change Password</a></li>
+        <li class="@ManageNavPages.AddCarNavClass(ViewContext)"><a asp-action="Index" asp-controller="Submit">Add Car</a></li>
+        <li class="@ManageNavPages.NotificationsNavClass(ViewContext)"><a asp-page="./Notifications">Notifications</a></li>
+        <li class="@ManageNavPages.YourCarsNavClass(ViewContext)"><a asp-page="./PersonalData">Your Cars</a></li>
+        @if (hasExternalLogins)
+        {
+            <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a id="external-login" asp-page="./ExternalLogins">External logins</a></li>
+        }
+        @if (await SignInManager.UserManager.IsInRoleAsync(await UserManager.GetUserAsync(this.User), "Admin"))
+        {
+            <li class="@ManageNavPages.AdminPanelNavClass(ViewContext)"><a asp-page="./AdminPanel">Admin Panel</a></li>
+        }
+
+    </ul>

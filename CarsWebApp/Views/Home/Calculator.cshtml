@@ -1,0 +1,172 @@
+﻿@inject ICarService  CarService;
+@using CarsWebApp.Services.Contracts;
+@using CarsWebApp.Models.Enums;
+@{
+}
+
+<section class="b-compare s-shadow">
+    <div class="container">
+        <div class="col-md-3">
+            <div class="alert alert-info b-submit__main-element wow zoomInUp" data-wow-delay="0.5s" role="alert">
+                <h4 class="alert-heading">Information how to use price prediction calculator!</h4>
+                <p>1. You must choose brand and model!</p>
+                <p class="mb-0">2. You must choose vehicle manufacturer year</p>
+                <p class="mb-0">3. You must choose horse powers</p>
+                <p class="mb-0">If you don't choose fuel type and mileage it won't be a problem. If this fields are empty they have default values.</p>
+                <p class="mb-0">Fuel type has default value Petrol.</p>
+                <p class="mb-0">Mileage has default value 18 000 km per year.</p>
+                <p class="mb-0">4. Click predict car price</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <form id="predictForm" class="s-submit clearfix" method="post">
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Enter Brand <span>*</span></label>
+                    <div class='s-relative'>
+                        <select id="BrandType" class="m-select">
+                            <option selected="selected" value="">Please select</option>
+                            @foreach (var brand in await CarService.GetBrands())
+                            {
+                                <option value="@brand.Id">@brand.BrandType</option>
+                            }
+                        </select>
+                        <span class="fa fa-caret-down"></span>
+                    </div>
+                </div>
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Enter Vehicle Model <span>*</span></label>
+                    <div class='s-relative'>
+                        <select class="m-select" id="ModelTypes">
+                            <option value="-1" selected>Select Model</option>
+                        </select>
+                        <span class="fa fa-caret-down"></span>
+                    </div>
+                </div>
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Vehicle Manufacturer Year<span>*</span></label>
+                    <select id="Year" class="m-select">
+                        <option selected="selected" value="">Please select</option>
+                        @for (int i = DateTime.UtcNow.Year; i >= 1990; i--)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <span class="fa fa-caret-down"></span>
+                </div>
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Enter Horse power <span>*</span></label>
+                    <input id="HorsePower" placeholder="Enter horse power" type="text" />
+                </div>
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Select Fuel Type <span>*</span></label>
+                    <div class='s-relative'>
+                        <select id="FuelType" class="m-select" asp-items="Html.GetEnumSelectList<FuelType>()">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span class="fa fa-caret-down"></span>
+                    </div>
+                </div>
+
+                <div class="b-submit__main-element wow zoomInUp" data-wow-delay="0.5s">
+                    <label>Enter Mileage<span>*</span></label>
+                    <input id="Mileage" placeholder="Enter mileage" type="text" />
+                </div>
+
+                <button id="predict" type="submit" class="btn m-btn pull-right wow zoomInUp" data-wow-delay="0.5s">Predict car price<span class="fa fa-angle-right"></span></button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <br />
+    <div id="prediction" class="container">
+        
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#BrandType').on('change', function () {
+                var modelId = $('#BrandType option:selected').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { modelId: modelId },
+                    url: '@Url.Action("GetModelById", "Values", new { httproute = "api"})',
+                    success: function (result) {
+                        var models = JSON.parse(result);
+                        console.log(models);
+                        var append = '';
+                        for (var i = 0; i < models.length; i++) {
+                            append += '<option value=' + models[i].Id + '>' + models[i].ModelType + '</option>';
+                        }
+                        $('#ModelTypes').html(append);
+                    }
+                })
+            })
+        })
+    </script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'MM yy',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+        });
+
+        $('#predictForm').on('submit', function (event) {
+            event.preventDefault();
+            my_form_treatment(this, event);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $('#predict').on('click', function () {
+            var brand = document.getElementById('BrandType').value;
+            var model = document.getElementById('ModelTypes').value;
+
+            if (model == -1) {
+                model = null;
+            }
+
+            var year = document.getElementById('Year').value;
+            var fuelType = document.getElementById('FuelType').value;
+            var mileage = document.getElementById('Mileage').value;
+            var horsePower = document.getElementById('HorsePower').value;
+
+            $.ajax({
+                type: 'GET',
+                data: { brandType: brand, modelType: model, year: year, fuelType: fuelType, mileage: mileage, horsePower: horsePower },
+                url: '@Url.Action("PredictCarPrice", "Values", new { httproute = "api"})',
+                success: function (result) {
+                    var append = '';
+                    $('#prediction').html("");
+                    if (result != "Error") {
+                        append += '<div class="col-md-3"></div><div style="margin:auto;"><div class="col-md-6 b-submit__main-element wow zoomInUp" data-wow-delay="0.5s"><div class="alert alert-success" role="alert">';
+                        append += '<h4 class="alert-heading">Price prediction: ' + result + '</h4>';
+                        append += '</div></div></div>';
+                    }
+                    $('#prediction').html(append);
+                }
+            })
+        })
+    </script>
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+    }
+    </style>
+}

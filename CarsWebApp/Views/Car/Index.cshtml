@@ -1,0 +1,395 @@
+﻿@model CarViewModel;
+@inject ICarService  CarService;
+@using CarsWebApp.Services.Contracts;
+@using CarsWebApp.Models;
+@using System.Globalization;
+@{
+    ViewData["Title"] = @Model.BrandType;
+
+    var firstExtras = Model.FirstExtras;
+    var firstExtrasPropertyNames = await CarService.GetBooleanPropertyNames(new FirstExtras());
+
+    var secondExtras = Model.SecondExtras;
+    var secondExtrasPropertyNames = await CarService.GetBooleanPropertyNames(new SecondExtras());
+
+    var thirdExtras = Model.ThirdExtras;
+    var thirdExtrasPropertyNames = await CarService.GetBooleanPropertyNames(new ThirdExtras());
+}
+<section class="b-detail s-shadow">
+    <div class="container">
+        <header class="b-detail__head s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
+            <div class="row">
+                <div class="col-sm-9 col-xs-12">
+                    <div class="b-detail__head-title">
+                        <h1>@Model.BrandType @Model.ModelType @Model.EngineModification</h1>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <div class="b-detail__head-price">
+                        <div style="color: #000;font: 700 26px 'PT Sans',sans-serif;">@Model.Price.ToString("C2", CultureInfo.CreateSpecificCulture("en-US"))</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="b-detail__main">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <div class="b-detail__main-info">
+                        <div class="b-detail__main-info-images wow zoomInUp" data-wow-delay="0.5s">
+                            <div class="row m-smallPadding">
+                                <div class="col-xs-10">
+                                    <ul class="b-detail__main-info-images-big bxslider enable-bx-slider" data-pager-custom="#bx-pager" data-mode="horizontal" data-pager-slide="true" data-mode-pager="vertical" data-pager-qty="5">
+
+                                        @foreach (var image in Model.Pictures)
+                                        {
+                                            var picture = Convert.ToBase64String(image);
+                                            <li class="s-relative">
+                                                <img class="img-responsive center-block" src="data:image/png;base64, @picture" />
+                                            </li>
+                                        }
+
+
+
+                                    </ul>
+                                </div>
+                                <div class="col-xs-2 pagerSlider pagerVertical">
+                                    <div class="b-detail__main-info-images-small" id="bx-pager">
+                                        @for (int i = 0; i < Model.Pictures.Count; i++)
+                                        {
+                                            var picture = Convert.ToBase64String(Model.Pictures[i]);
+                                            <a href="#" data-slide-index="@i" class="b-detail__main-info-images-small-one">
+                                                <img class="img-responsive" src="data:image/png;base64, @picture" />
+                                            </a>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="b-detail__main-info-characteristics wow zoomInUp" data-wow-delay="0.5s">
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-car"></span></div>
+                                    <p>@Model.State</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Status
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-trophy"></span></div>
+                                    <p>@Model.Mileage.ToString("N0") KM</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Kilometers
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-cogs"></span></div>
+                                    <p>@Model.Transmission</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Transmission
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-car"></span></div>
+                                    <p>@Model.BodyType</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Body Type
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-user"></span></div>
+                                    <p>
+                                        @if (Model.Doors == 0)
+                                        {
+                                            @(2);
+                                        }
+                                        else
+                                        {
+                                            @(5);
+                                        }
+                                    </p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Passangers
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-paint-brush"></span></div>
+                                    <p>@Model.Color</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Color
+                                </div>
+                            </div>
+                            <div class="b-detail__main-info-characteristics-one">
+                                <div class="b-detail__main-info-characteristics-one-top">
+                                    <div><span class="fa fa-globe"></span></div>
+                                    <p>@Model.EuroStandart</p>
+                                </div>
+                                <div class="b-detail__main-info-characteristics-one-bottom">
+                                    Euro Standart
+                                </div>
+                            </div>
+                        </div>
+                        <div class="b-detail__main-info-text wow zoomInUp" data-wow-delay="0.5s">
+
+                            <div id="info1">
+                                <p>@Model.Description</p>
+                            </div>
+
+
+                        </div>
+                        <div class="b-detail__main-info-extra wow zoomInUp" data-wow-delay="0.5s">
+                            <h2 class="s-titleDet">EXTRA FEATURES</h2>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <ul>
+                                        @for (int i = 0; i < firstExtrasPropertyNames.Count; i++)
+                                        {
+                                            var property = firstExtras.GetType().GetProperty(firstExtrasPropertyNames[i]).GetValue(firstExtras);
+                                            if ((bool)property == true)
+                                            {
+                                                
+                                                <li><span class="fa fa-check"></span>@string.Concat(Convert.ToString(firstExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                            else
+                                            {
+                                                <li><span class="fa fa-close"></span>@string.Concat(Convert.ToString(firstExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-xs-4">
+                                    <ul>
+                                        @for (int i = 0; i < secondExtrasPropertyNames.Count; i++)
+                                        {
+                                            var property = secondExtras.GetType().GetProperty(secondExtrasPropertyNames[i]).GetValue(secondExtras);
+                                            if ((bool)property == true)
+                                            {
+
+                                                <li><span class="fa fa-check"></span>@string.Concat(Convert.ToString(secondExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                            else
+                                            {
+                                                <li><span class="fa fa-close"></span>@string.Concat(Convert.ToString(secondExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-xs-4">
+                                    <ul>
+                                        @for (int i = 0; i < thirdExtrasPropertyNames.Count; i++)
+                                        {
+                                            var property = thirdExtras.GetType().GetProperty(thirdExtrasPropertyNames[i]).GetValue(thirdExtras);
+                                            if ((bool)property == true)
+                                            {
+
+                                                <li><span class="fa fa-check"></span>@string.Concat(Convert.ToString(thirdExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                            else
+                                            {
+                                                <li><span class="fa fa-close"></span>@string.Concat(Convert.ToString(thirdExtrasPropertyNames[i]).Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ')</li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <aside class="b-detail__main-aside">
+                        <div class="b-detail__main-aside-desc wow zoomInUp" data-wow-delay="0.5s">
+                            <h2 class="s-titleDet">Description</h2>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Make</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.BrandType</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Model</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.ModelType</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Kilometers</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.Mileage.ToString("N0") km</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Year</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.CarYear.ToString("MMMM", CultureInfo.InvariantCulture) @Model.CarYear.Year.ToString()</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Horse Power</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.HorsePower hp</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Body Type</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.BodyType</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">State</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.State</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Engine Volume</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.EngineVolume.ToString("N0") cm<span style="vertical-align:super;font-size: 0.9em;">3</span></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Transmission</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.Transmission</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Exterior Color</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.Color</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Passangers/Doors</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">
+                                        @if (Model.Doors.ToString() == "First")
+                                        {
+                                            @("2/3")
+                                        }
+                                        else
+                                        {
+                                            @("4/5")
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Fuel Type</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">@Model.FuelType</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h4 class="b-detail__main-aside-desc-title">Euro Standart</h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <p class="b-detail__main-aside-desc-value">
+                                        @Model.EuroStandart
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="b-detail__main-aside-about wow zoomInUp" data-wow-delay="0.5s">
+                            <h2 class="s-titleDet">INQUIRE ABOUT THIS VEHICLE</h2>
+                            <div class="b-detail__main-aside-about-call">
+                                <span class="fa fa-phone"></span>
+                                <div>1-888-378-4027</div>
+                                <p>Call the seller 24/7 and they would help you.</p>
+                            </div>
+                            <div class="b-detail__main-aside-about-seller">
+                                <p>Seller Info: <span>@Model.AddedBy</span></p>
+                            </div>
+                            <div class="b-detail__main-aside-about-form">
+                                <div class="b-detail__main-aside-about-form-links">
+                                    <a href="#" class="j-tab m-active s-lineDownCenter" data-to='#form1'>GENERAL INQUIRY</a>
+                                </div>
+                                <form id="contactForm" method="post">
+                                    @*<input type="text" placeholder="YOUR NAME" value="" name="name" />
+                                    <input type="email" placeholder="EMAIL ADDRESS" value="" name="email" />
+                                    <input type="tel" placeholder="PHONE NO." value="" name="name" />*@
+                                    <textarea id="message" name="text" placeholder="message"></textarea>
+                                    <button id="sendMessage" type="submit" class="btn m-btn">SEND MESSAGE<span class="fa fa-angle-right"></span></button>
+                                </form>
+                                <br />
+                                <br />
+                                <div id="alert"></div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--b-detail-->
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $('#sendMessage').on('click', function () {
+                var from = "@this.User.Identity.Name";
+                var to = "@Model.AddedBy";
+                var message = $('#message').val();
+                if (message.length > 0) {
+                    $.ajax({
+                        type: 'POST',
+                        data: { from: from, to: to, message: message },
+                        url: '@Url.Action("SendMessage", "Car")',
+                        success: function () {
+                            append = '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Success!</strong> You successfully send message to <strong>'+to+'</strong>.</div>';
+                            $('#alert').html(append);
+                            document.getElementById('contactForm').reset();
+                        }
+                    })
+                }
+                else {
+                    alert("Message field cannot be empty!");
+                }
+            })
+
+        })
+
+$('#contactForm').on('submit', function(event) {
+   event.preventDefault();
+   my_form_treatment(this, event);
+});
+    </script>
+}
