@@ -1,4 +1,4 @@
-# Asp.Net-Core-Cars-WebApplication
+# Asp.Net-Core-Cars-Web-Application
 
 Project example Asp.Net Core Mvc implementation cars web application.
 Add new car, search car, real time message system, machine learning calculator for prediction car price.
@@ -8,6 +8,7 @@ For machine learning algorithm i am using LbfgsPoissonRegression.
 ![inventory](https://github.com/deyanstoyanov10/Cars-Web-Application/blob/master/CarsWebApp/wwwroot/images/calculator.png)
 ![inventory](https://github.com/deyanstoyanov10/Cars-Web-Application/blob/master/CarsWebApp/wwwroot/images/functionsOne.jpg)
 ![inventory](https://github.com/deyanstoyanov10/Cars-Web-Application/blob/master/CarsWebApp/wwwroot/images/functionsTwo.jpg)
+
 
 ### Installing
 
