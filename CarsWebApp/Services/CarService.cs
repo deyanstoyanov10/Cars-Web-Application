@@ -72,7 +72,7 @@
                 Description = carModel.Description,
                 AddedBy = username,
                 AddedOn = DateTime.UtcNow,
-                IsActive = false
+                IsActive = true
             });
 
             foreach (var item in carModel.Pictures)
