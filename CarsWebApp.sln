@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsWebApp.Models", "CarsWe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarsWebApp.Data", "CarsWebApp.Data\CarsWebApp.Data.csproj", "{0413BB58-B1FA-44C4-BBD3-29E5BC1FA0BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestQueries", "TestQueries\TestQueries.csproj", "{BD36D17A-EB11-4D5E-8024-215C6381BB17}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{0413BB58-B1FA-44C4-BBD3-29E5BC1FA0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0413BB58-B1FA-44C4-BBD3-29E5BC1FA0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0413BB58-B1FA-44C4-BBD3-29E5BC1FA0BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD36D17A-EB11-4D5E-8024-215C6381BB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD36D17A-EB11-4D5E-8024-215C6381BB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD36D17A-EB11-4D5E-8024-215C6381BB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD36D17A-EB11-4D5E-8024-215C6381BB17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
