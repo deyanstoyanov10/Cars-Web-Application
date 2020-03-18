@@ -4,6 +4,11 @@ Project example Asp.Net Core Mvc implementation cars web application.
 Add new car, search car, real time message system, machine learning calculator for prediction car price.
 For machine learning algorithm i am using LbfgsPoissonRegression.
 
+![inventory](wwwroot/images/main.png)
+![inventory](wwwroot/images/calculator.png)
+![inventory](wwwroot/images/functionsOne.jpg)
+![inventory](wwwroot/images/functionsTwo.jpg)
+
 ### Installing
 
 You can deploy this site in azure with a few steps.
@@ -25,6 +30,7 @@ You can deploy this site in azure with a few steps.
 * Code First
 * C#
 * Beautiful Bootstrap
+* Html5 + css3
 * JQuery + Ajax
 * Machine learning
 
@@ -45,9 +51,10 @@ You can deploy this site in azure with a few steps.
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Features in Development
+## Functional Features in Development
 
 * Adding admin panel
 * Adding Ads with payment
 * Fix message system perfomance
+* Fixing small things
 * Elastic search
