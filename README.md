@@ -17,7 +17,7 @@ You can deploy this site in azure with a few steps.
 * Create new resource group in azure (web + sql);
 * Run this project in visual studio
 * Go to appsettings.json and change DefaultConnection string with yours. Also change default admin account and password with yours.
-* Go to StartUp.cs and scroll down to fonction "CreateUserRoles" and add or remove roles if it needs.
+* Go to StartUp.cs and scroll down to function "CreateUserRoles" and add or remove roles if it needs.
 * Also scroll down and add, remove or change current brand and model type of cars.
 * Now you are ready to start this project for first time, so go to azure and download publish profile.
 * Go to visual studio and right click on CarsWebApp and click publish
@@ -46,7 +46,7 @@ You can deploy this site in azure with a few steps.
 
 ### Development Tools & Environment
 
-* Visual Studio 2017 (Community Edition). [(https://visualstudio.microsoft.com/)](https://visualstudio.microsoft.com/)
+* Visual Studio 2019 (Enterprise Edition). [(https://visualstudio.microsoft.com/)](https://visualstudio.microsoft.com/)
 
 ## License
 
