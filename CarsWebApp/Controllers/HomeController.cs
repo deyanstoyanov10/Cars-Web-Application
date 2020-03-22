@@ -8,9 +8,18 @@
 
     using CarsWebApp.Data;
     using CarsWebApp.Models;
-    
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
+
     public class HomeController : Controller
     {
+        private readonly CarsDbContext context;
+
+        public HomeController(CarsDbContext context)
+        {
+            this.context = context;
+        }
+
         public async Task<IActionResult> Index()
         {
             return await Task.Run(() => View());
